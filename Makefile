@@ -5,25 +5,57 @@ BUILD_DIR ?= ./artifacts
 build:
 	$(shell mkdir -p $(BUILD_DIR))
 	$(MAKE) build-linux_amd64
+	$(MAKE) build-linux_arm64
 	$(MAKE) build-darwin_amd64
+	$(MAKE) build-darwin_arm64
 	$(MAKE) build-windows_amd64
+	$(MAKE) build-windows_arm64
 	$(MAKE) build-server-xdp-linux_amd64
+	$(MAKE) build-server-xdp-linux_arm64
 
-.PHONY: build-server-xdp-linux_amd64
-build-server-xdp-linux_amd64:
-	GOOS=linux GOARCH=amd64 go build -tags xdp -o $(BUILD_DIR)/openspa_xdp_linux_amd64 ./cli/openspa
-
+# ==========================
+# Linux AMD64/ARM64
+# ==========================
 .PHONY: build-linux_amd64
 build-linux_amd64:
 	GOOS=linux GOARCH=amd64 go build -o $(BUILD_DIR)/openspa_linux_amd64 ./cli/openspa
 
+.PHONY: build-linux_arm64
+build-linux_arm64:
+	GOOS=linux GOARCH=arm64 go build -o $(BUILD_DIR)/openspa_linux_arm64 ./cli/openspa
+
+# ==========================
+# Darwin (macOS) AMD64/ARM64
+# ==========================
 .PHONY: build-darwin_amd64
 build-darwin_amd64:
 	GOOS=darwin GOARCH=amd64 go build -o $(BUILD_DIR)/openspa_darwin_amd64 ./cli/openspa
 
+.PHONY: build-darwin_arm64
+build-darwin_arm64:
+	GOOS=darwin GOARCH=arm64 go build -o $(BUILD_DIR)/openspa_darwin_arm64 ./cli/openspa
+
+# ==========================
+# Windows AMD64/ARM64
+# ==========================
 .PHONY: build-windows_amd64
 build-windows_amd64:
 	GOOS=windows GOARCH=amd64 go build -o $(BUILD_DIR)/openspa_windows_amd64 ./cli/openspa
+
+.PHONY: build-windows_arm64
+build-windows_arm64:
+	GOOS=windows GOARCH=arm64 go build -o $(BUILD_DIR)/openspa_windows_arm64 ./cli/openspa
+
+# ==========================
+# XDP Linux AMD64/ARM64
+# ==========================
+.PHONY: build-server-xdp-linux_amd64
+build-server-xdp-linux_amd64:
+	GOOS=linux GOARCH=amd64 go build -tags xdp -o $(BUILD_DIR)/openspa_xdp_linux_amd64 ./cli/openspa
+
+.PHONY: build-server-xdp-linux_arm64
+build-server-xdp-linux_arm64:
+	GOOS=linux GOARCH=arm64 go build -tags xdp -o $(BUILD_DIR)/openspa_xdp_linux_arm64 ./cli/openspa
 
 .PHONY: test
 test:
